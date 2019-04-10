@@ -3,8 +3,8 @@ This project provides the code and datasets for 'CapSal: Leveraging Captioning t
 The code and dataset is coming soon.
 
 # Citation
-@InProceedings{Zhang_2019_CVPR,
-        author = {Zhang, Lu and Zhang, Jianming and Lin, Zhe and Lu, Huchuan and He, You},
-        title = {CapSal: Leveraging Captioning to Boost Semantics for Salient Object Detection},
-        booktitle = CVPR,
+@InProceedings{Zhang_2019_CVPR,\\
+        author = {Zhang, Lu and Zhang, Jianming and Lin, Zhe and Lu, Huchuan and He, You},\\
+        title = {CapSal: Leveraging Captioning to Boost Semantics for Salient Object Detection},\\
+        booktitle = CVPR,\\
         year = {2019}}
