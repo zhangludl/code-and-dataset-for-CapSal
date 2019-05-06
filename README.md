@@ -3,7 +3,8 @@
     
    The Training code and dataset is coming soon.
    Our code is implemented based on the Mask RCNN in Tensorflow and Keras. You can first install the maskrcnn according to the [instruction](https://github.com/matterport/Mask_RCNN.git) or `INSTALL.md`. 
-
+# COCO-CapSal Dataset
+   The COCO-CapSal dataset provides the saliency ground truth as well as the image captions for each image. It contains 5265 images for training and 1459 ones for validation. The annotations can be downloaded at [BaiduYun](https://pan.baidu.com/s/1iU8A-RII7rvOG9KHz5Dysg) or [GoogleDrive](). The folder 'capsal' contains the images, ground truth maps as well as the caprions (json file) of both training and validation sets. 
 # Citation
         @InProceedings{Zhang_2019_CVPR,
                 author = {Zhang, Lu and Zhang, Jianming and Lin, Zhe and Lu, Huchuan and He, You},
