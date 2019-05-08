@@ -5,4 +5,6 @@ We provide the images, ground truth, image captions and instance masks.
 * `val_img_gt.zip`: images and GT for validation set.
 * `train.zip`: image captions and instance masks for training set.
 * `val.zip`: image captions and instance masks for validation set.
-`train.zip` contains `vocabulary.csv` (dictionary of captions) and `train.npy` (captions and instance masks). 
+
+  `train.zip` contains `vocabulary.csv` (dictionary of captions) and `train.npy` (captions and instance masks). 
+  `train.zip` contains `vocabulary.csv` (dictionary of captions) and `train.npy` (captions and instance masks). 
