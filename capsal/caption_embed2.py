@@ -15,7 +15,7 @@ def fc_kernel_initializer():
 def fc_kernel_regularizer():
     return layers.l2_regularizer(scale = 1e-4)
 def load_weight_caption():
-    model_dir = '/home/zhanglu/Mask_RCNN_new/mrcnn/keras_caption.npy'
+    model_dir = './model/keras_caption.npy'
     data_dict = np.load(model_dir,encoding="bytes").item()
     count = 0
     sess = tf.Session()
@@ -31,18 +31,11 @@ def load_weight():
     model_dir = '/home/zhanglu/Mask_RCNN_new/mrcnn/keras_caption.npy'
     data_dict = np.load(model_dir,encoding='latin1').item()
     return data_dict
-# def conv2d(input,dim,name,data_dict):
-#     kernel_initializer = Constant(data_dict[name+'/kernel:0'])
-#     bias_initializer = Constant(data_dict[name+'/bias:0'])
-#     x = KL.Conv2D(dim, (3, 3), padding="same", activation="relu", kernel_initializer=kernel_initializer,
-#                      bias_initializer=bias_initializer,name=name)(input)
-#     return x
-data_dict = load_weight()
+
+
 def build_rnn(input,config):
     ctx = 64
-    down = KL.Conv2D(512, (3, 3), padding="same", activation="relu", name='gcap_down_imagefeature',
-                     kernel_initializer=Constant(data_dict['gcap_down_imagefeature/kernel:0']),
-                     bias_initializer=Constant(data_dict['gcap_down_imagefeature/bias:0']))(input)
+    down = KL.Conv2D(512, (3, 3), padding="same", activation="relu", name='gcap_down_imagefeature')(input)
 
     reshaped_conv5_3_feats = KL.Lambda(lambda x: tf.reshape(x, [config.BATCH_SIZE, ctx, 512]))(down)
     conv_feats = reshaped_conv5_3_feats
@@ -52,8 +45,7 @@ def build_rnn(input,config):
     contexts = conv_feats
     reshaped_contexts = KL.Lambda(lambda x: tf.reshape(x, [-1, 512]))(contexts)
     temp1 = attend_1(reshaped_contexts)
-    w_embedding = KL.Embedding(input_dim=5000, output_dim=512, name='gcap_embedding',
-                               embeddings_initializer=Constant(data_dict['gcap_embedding/embeddings:0']))
+    w_embedding = KL.Embedding(input_dim=5000, output_dim=512, name='gcap_embedding')
 
     # Setup the LSTM
 
@@ -77,9 +69,6 @@ def build_rnn(input,config):
     cross_entropies = []
     predictions_correct = []
     lstm = KL.LSTM(512, return_state=True, recurrent_activation='hard_sigmoid', name='gcap_lstm',
-                   kernel_initializer=Constant(data_dict['gcap_lstm/kernel:0']),
-                   recurrent_initializer=Constant(data_dict['gcap_lstm/recurrent_kernel:0']),
-                   bias_initializer=Constant(data_dict['gcap_lstm/bias:0']),
                    unit_forget_bias=False)  # (last_output,initial_state = initial_state)
 
     # Generate the words one by one
@@ -154,9 +143,7 @@ def build_rnn(input,config):
     return outputs, predictions,alphas,att_masks
 def build_rnn2(input,caption_gt,masks,config):
 
-    down = KL.Conv2D(512, (3, 3), padding="same", activation="relu", name='gcap_down_imagefeature',
-                     kernel_initializer=Constant(data_dict['gcap_down_imagefeature/kernel:0']),
-                     bias_initializer=Constant(data_dict['gcap_down_imagefeature/bias:0']))(input)
+    down = KL.Conv2D(512, (3, 3), padding="same", activation="relu", name='gcap_down_imagefeature')(input)
 
     reshaped_conv5_3_feats = KL.Lambda(lambda x:tf.reshape(x, [config.BATCH_SIZE, 64, 512]))(down)
     conv_feats = reshaped_conv5_3_feats
@@ -166,7 +153,7 @@ def build_rnn2(input,caption_gt,masks,config):
     contexts = conv_feats
     reshaped_contexts = KL.Lambda(lambda x: tf.reshape(x, [-1, 512]))(contexts)
     temp1 = attend_1(reshaped_contexts)
-    w_embedding = KL.Embedding(input_dim=5000,output_dim=512,name='gcap_embedding',embeddings_initializer=Constant(data_dict['gcap_embedding/embeddings:0']))
+    w_embedding = KL.Embedding(input_dim=5000,output_dim=512,name='gcap_embedding')
 
 
         # Setup the LSTM
@@ -190,8 +177,7 @@ def build_rnn2(input,caption_gt,masks,config):
     cross_entropies = []
     predictions_correct = []
     lstm = KL.LSTM(512,return_state=True,recurrent_activation='hard_sigmoid',name='gcap_lstm',
-                   kernel_initializer=Constant(data_dict['gcap_lstm/kernel:0']),recurrent_initializer=Constant(data_dict['gcap_lstm/recurrent_kernel:0']),
-                   bias_initializer=Constant(data_dict['gcap_lstm/bias:0']),unit_forget_bias=False)#(last_output,initial_state = initial_state)
+                   unit_forget_bias=False)#(last_output,initial_state = initial_state)
 
     # Generate the words one by one
     for idx in range(num_steps):
@@ -284,22 +270,15 @@ def caption_loss(label,prediction,mask):
 
 def initialize( context_mean):
     # use 2 fc layers to initialize
-    temp1 = KL.Dense(512,activation='tanh',name='gcap_initialize_fc_a1',kernel_initializer=Constant(data_dict['gcap_initialize_fc_a1/kernel:0']),
-                     bias_initializer=Constant(data_dict['gcap_initialize_fc_a1/bias:0']))(context_mean)#
-    memory = KL.Dense(512, name='gcap_initialize_fc_a2',kernel_initializer=Constant(data_dict['gcap_initialize_fc_a2/kernel:0']),
-                      bias_initializer=Constant(data_dict['gcap_initialize_fc_a2/bias:0']))(temp1)#
-    temp2 = KL.Dense(512, activation='tanh', name='gcap_initialize_fc_b1',kernel_initializer=Constant(data_dict['gcap_initialize_fc_b1/kernel:0']),
-                     bias_initializer=Constant(data_dict['gcap_initialize_fc_b1/bias:0']))(context_mean)#
+    temp1 = KL.Dense(512,activation='tanh',name='gcap_initialize_fc_a1')(context_mean)#
+    memory = KL.Dense(512, name='gcap_initialize_fc_a2')(temp1)#
+    temp2 = KL.Dense(512, activation='tanh', name='gcap_initialize_fc_b1')(context_mean)#
 
-    output = KL.Dense(512, name='gcap_initialize_fc_b2',kernel_initializer=Constant(data_dict['gcap_initialize_fc_b2/kernel:0']),
-                      bias_initializer=Constant(data_dict['gcap_initialize_fc_b2/bias:0']))(temp2)#,kernel_initializer=data_dict['gcap_initialize_fc_b2/kernel:0'],bias_initializer=data_dict['gcap_initialize_fc_b2/bias:0']
-
+    output = KL.Dense(512, name='gcap_initialize_fc_b2')(temp2)
     return memory, output
-attend_1 = KL.Dense(512,activation='tanh',name='gcap_attend_fc_1a',kernel_initializer=Constant(data_dict['gcap_attend_fc_1a/kernel:0']),
-                    bias_initializer=Constant(data_dict['gcap_attend_fc_1a/bias:0']))#
-attend_2 = KL.Dense(512,activation='tanh',name='gcap_attend_fc_1b',kernel_initializer=Constant(data_dict['gcap_attend_fc_1b/kernel:0']),
-                    bias_initializer=Constant(data_dict['gcap_attend_fc_1b/bias:0']))#
-attend_3 = KL.Dense(1,use_bias=False,name='gcap_attend_fc_2',kernel_initializer=Constant(data_dict['gcap_attend_fc_2/kernel:0']))#
+attend_1 = KL.Dense(512,activation='tanh',name='gcap_attend_fc_1a')#
+attend_2 = KL.Dense(512,activation='tanh',name='gcap_attend_fc_1b')#
+attend_3 = KL.Dense(1,use_bias=False,name='gcap_attend_fc_2')#
 def attend(inpu, output):
 
     # """ Attention Mechanism. """
@@ -316,10 +295,8 @@ def attend(inpu, output):
     logits = KL.Lambda(lambda x: tf.reshape(logits, [-1, 64]))(logits)
     alpha = KL.Lambda(lambda x: tf.nn.softmax(logits))(logits)
     return alpha
-decode_1 = KL.Dense(1024,activation='tanh',name='gcap_decode_fc_1',kernel_initializer=Constant(data_dict['gcap_decode_fc_1/kernel:0']),
-                    bias_initializer=Constant(data_dict['gcap_decode_fc_1/bias:0']))#
-decode_2 = KL.Dense(5000,activation=None,name='gcap_decode_fc_2',kernel_initializer=Constant(data_dict['gcap_decode_fc_2/kernel:0']),
-                    bias_initializer=Constant(data_dict['gcap_decode_fc_2/bias:0']))#
+decode_1 = KL.Dense(1024,activation='tanh',name='gcap_decode_fc_1')#
+decode_2 = KL.Dense(5000,activation=None,name='gcap_decode_fc_2')#
 def decode(expanded_output):
     # """ Decode the expanded output of the LSTM into a word. """
     # use 2 fc layers to decode
