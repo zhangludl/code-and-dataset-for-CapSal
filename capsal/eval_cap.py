@@ -3,7 +3,7 @@ from mrcnn.coco.pycocoevalcap.bleu.bleu import Bleu
 from mrcnn.coco.pycocoevalcap.meteor.meteor import Meteor
 from mrcnn.coco.pycocoevalcap.rouge.rouge import Rouge
 from mrcnn.coco.pycocoevalcap.cider.cider import Cider
-
+# Down load the coco evaluation tool at https://pan.baidu.com/s/1mRN_qV7X8ZLUeuARQY3EwQ
 
 class COCOEvalCap:
     def __init__(self, coco, cocoRes):
