@@ -24,8 +24,8 @@ import keras.layers as KL
 import keras.engine as KE
 import keras.models as KM
 from keras.initializers import Constant
-from mrcnn import utils
-from mrcnn.caption_embed2 import build_rnn, build_rnn2
+from capsal import utils
+from capsal.caption_embed2 import build_rnn, build_rnn2
 import pickle
 # Requires TensorFlow 1.3+ and Keras 2.0.8+.
 from distutils.version import LooseVersion
