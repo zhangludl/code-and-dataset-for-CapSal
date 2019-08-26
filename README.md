@@ -6,7 +6,7 @@
 # COCO-CapSal Dataset
    The COCO-CapSal dataset provides the saliency ground truth as well as the image captions for each image. It contains 5265 images for training and 1459 ones for validation. The annotations can be downloaded at [BaiduYun](https://pan.baidu.com/s/1iU8A-RII7rvOG9KHz5Dysg) or [GoogleDrive](). The folder 'capsal' contains the images, ground truth maps as well as the caprions (json file) of both training and validation sets. 
 # Evaluation
-For testing the CapSal model, first download the trained model at [BaiduYun](https://pan.baidu.com/s/1dQwQ5AdJqBfSSgZPUNR_g1g) or [Google]() and put it under the `./model`. Run `test_capsal.py` to obtain the saliency maps of different datasets. 
+For testing the CapSal model, first download the trained model at [BaiduYun](https://pan.baidu.com/s/1dQwQ5AdJqBfSSgZPUNR_gg) or [Google]() and put it under the `./model`. Run `test_capsal.py` to obtain the saliency maps of different datasets. 
 The saliency map is avaliable at [Google]() or [BaiduYun](https://pan.baidu.com/s/1LtlK3ZH8adZCEi8n0ys9BA).
 # Train
 Coming soon
