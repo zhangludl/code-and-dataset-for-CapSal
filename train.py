@@ -331,10 +331,19 @@ if __name__ == '__main__':
         model.load_weights(model_path, by_name= True)
 
    
-    # Validation dataset
-    dataset_val = SaliencyDataset()
-    dataset_val.load_sal('val')
-    dataset_val.prepare()
-    print("Running COCO evaluation on {} images.".format(1459))
-    predict2(model)
+    model.train(dataset_train, dataset_val,
+                    learning_rate=config.LEARNING_RATE,
+                    epochs=40,
+                    layers='heads',
+                    augmentation=augmentation)
+
+        
+        
+   model.train(dataset_train, dataset_val,
+                    learning_rate=config.LEARNING_RATE/10,
+                    epochs=120,
+                    layers='all',
+                    augmentation=augmentation)
+
+        
     
