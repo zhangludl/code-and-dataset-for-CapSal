@@ -13,7 +13,7 @@ import skimage.io
 
 from capsal.config import Config
 from capsal import utils
-from capsal import model_new10_upcap11 as modellib
+from capsal import model_new10_upcap as modellib
 from capsal.eval_cap import COCOEvalCap
 import json
 
