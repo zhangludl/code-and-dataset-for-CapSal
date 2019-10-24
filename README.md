@@ -9,7 +9,7 @@
 For testing the CapSal model, first download the trained model at [BaiduYun](https://pan.baidu.com/s/1dQwQ5AdJqBfSSgZPUNR_gg) or [Google](https://drive.google.com/drive/folders/1d04vkomA2sT2cUAst9CJYYHwTwNkSg2p?usp=sharing) and put it under the `./model`. Run `test_capsal.py` to obtain the saliency maps of different datasets. 
 The saliency map is avaliable at [Google](https://drive.google.com/drive/folders/1d04vkomA2sT2cUAst9CJYYHwTwNkSg2p?usp=sharing) or [BaiduYun](https://pan.baidu.com/s/1LtlK3ZH8adZCEi8n0ys9BA).
 # Train
-Coming soon
+Run 'train.py'.
 # Citation
         @InProceedings{Zhang_2019_CVPR,
                 author = {Zhang, Lu and Zhang, Jianming and Lin, Zhe and Lu, Huchuan and He, You},
